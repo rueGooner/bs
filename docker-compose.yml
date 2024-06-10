@@ -1,0 +1,10 @@
+services:
+  postgres:
+    container_name: postgres
+    image: postgres:latest
+    environment:
+      - POSTGRES_USER=rc-admin
+      - POSTGRES_PASSWORD=password
+    ports:
+      - '5433:5433'
+    restart: always
