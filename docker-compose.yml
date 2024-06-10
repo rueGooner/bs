@@ -6,5 +6,5 @@ services:
       - POSTGRES_USER=rc-admin
       - POSTGRES_PASSWORD=password
     ports:
-      - '5433:5433'
+      - '5433:5432'
     restart: always
