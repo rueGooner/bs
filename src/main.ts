@@ -15,9 +15,11 @@ async function bootstrap() {
       'Comprehensive API for managing and processing booth bookings, including features for reservation creation, modification, and cancellation. Suitable for various industries such as hospitality, travel, and event management.',
     )
     .setVersion('1.0')
-    .addTag('booking', 'Endpoints related to booking operations')
-    .addTag('reservations', 'Endpoints for handling reservations')
-    .addTag('cancellations', 'Endpoints for managing cancellations')
+    .addTag('Users', 'Endpoints related to user based operations')
+    .addTag('Booking', 'Endpoints related to booking operations')
+    .addTag('Reservations', 'Endpoints for handling reservations')
+    .addTag('Cancellations', 'Endpoints for managing cancellations')
+    .addBearerAuth()
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
