@@ -13,6 +13,8 @@ export class AuthController {
     type: AuthEntity,
   })
   login(@Body() { email, password }: LoginDto) {
+    console.log('login methods');
+
     return this.authService.login(email, password);
   }
 }
