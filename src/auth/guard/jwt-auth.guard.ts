@@ -8,7 +8,6 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
       InstanceType<ReturnType<typeof AuthGuard>>['handleRequest']
     >
   ) {
-    console.log(args);
     return super.handleRequest(...args);
   }
 }
