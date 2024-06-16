@@ -28,6 +28,9 @@ export class UserEntity implements User {
   @ApiProperty()
   googleId: string;
 
+  @ApiProperty()
+  roleId: number;
+
   @Exclude()
   password: string;
 }
