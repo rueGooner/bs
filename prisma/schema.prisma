@@ -50,3 +50,33 @@ model UserRole {
 
   @@unique([userId, roleId])
 }
+
+model Product {
+  id          Int       @id @default(autoincrement())
+  name        String
+  description String
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  package     Package[]
+}
+
+model Package {
+  id          Int            @id @default(autoincrement())
+  name        String
+  description String
+  Product     Product?       @relation(fields: [productId], references: [id])
+  productId   Int?
+  price       Float
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+  extras      PackageExtra[]
+}
+
+model PackageExtra {
+  id          Int      @id @default(autoincrement())
+  name        String
+  description String
+  price       Float
+  Package     Package? @relation(fields: [packageId], references: [id])
+  packageId   Int?
+}
