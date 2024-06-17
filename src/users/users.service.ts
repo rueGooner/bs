@@ -12,11 +12,15 @@ export class UsersService {
     private configService: ConfigService,
   ) {}
 
-  async createAdmin(newUser: CreateAdminDto) {
-    const hashedPassword = await bcrypt.hash(
-      newUser.password,
+  private async createHashedString(value: string): Promise<string> {
+    return await bcrypt.hash(
+      value,
       parseInt(this.configService.get<string>('ROUNDS_OF_HASHING'), 10),
     );
+  }
+
+  async createAdmin(newUser: CreateAdminDto) {
+    const hashedPassword = await this.createHashedString(newUser.password);
 
     return this.prisma.user.create({
       data: {
@@ -28,10 +32,7 @@ export class UsersService {
   }
 
   async createClient(newUser: CreateClientDto) {
-    const hashedPassword = await bcrypt.hash(
-      newUser.password,
-      parseInt(this.configService.get<string>('ROUNDS_OF_HASHING'), 10),
-    );
+    const hashedPassword = await this.createHashedString(newUser.password);
 
     return this.prisma.user.create({
       data: {
