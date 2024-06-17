@@ -31,19 +31,21 @@ async function main() {
     });
   }
 
-  const [firstUser, secondUser] = await Promise.all([fakeUser(), fakeUser()]);
+  console.log(await fakeUser());
 
-  await prisma.user.upsert({
-    where: { email: firstUser.email },
-    update: {},
-    create: firstUser,
-  });
+  // const [firstUser, secondUser] = await Promise.all([fakeUser(), fakeUser()]);
 
-  await prisma.user.upsert({
-    where: { email: secondUser.email },
-    update: {},
-    create: secondUser,
-  });
+  // await prisma.user.upsert({
+  //   where: { email: firstUser.email },
+  //   update: {},
+  //   create: firstUser,
+  // });
+
+  // await prisma.user.upsert({
+  //   where: { email: secondUser.email },
+  //   update: {},
+  //   create: secondUser,
+  // });
 }
 
 main();

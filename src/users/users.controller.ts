@@ -10,7 +10,7 @@ import {
   ParseIntPipe,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { CreateUserDto } from './dto/create-user.dto';
+import { CreateAdminDto, CreateClientDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import {
   ApiBearerAuth,
@@ -26,12 +26,20 @@ import { UserEntity } from './entities/user.entity';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Post()
+  @Post('register/admin')
   @ApiCreatedResponse({
     type: UserEntity,
   })
-  async create(@Body() createUserDto: CreateUserDto) {
-    return new UserEntity(await this.usersService.create(createUserDto));
+  async registerAdmin(@Body() createUserDto: CreateAdminDto) {
+    return new UserEntity(await this.usersService.createAdmin(createUserDto));
+  }
+
+  @Post('register/client')
+  @ApiCreatedResponse({
+    type: UserEntity,
+  })
+  async registerClient(@Body() createUserDto: CreateClientDto) {
+    return new UserEntity(await this.usersService.createClient(createUserDto));
   }
 
   @Get()

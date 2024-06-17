@@ -31,6 +31,15 @@ export class UserEntity implements User {
   @ApiProperty()
   roleId: number;
 
+  @ApiProperty()
+  companyName: string;
+
+  @ApiProperty()
+  companyAddress: string;
+
+  @ApiProperty()
+  phoneNumber: string;
+
   @Exclude()
   password: string;
 }

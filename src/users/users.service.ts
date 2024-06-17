@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
+import { CreateAdminDto, CreateClientDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { ConfigService } from '@nestjs/config';
@@ -12,16 +12,33 @@ export class UsersService {
     private configService: ConfigService,
   ) {}
 
-  async create(newUser: CreateUserDto) {
+  async createAdmin(newUser: CreateAdminDto) {
     const hashedPassword = await bcrypt.hash(
       newUser.password,
-      this.configService.get<number>('ROUNDS_OF_HASHING'),
+      parseInt(this.configService.get<string>('ROUNDS_OF_HASHING'), 10),
     );
 
-    newUser.password = hashedPassword;
+    return this.prisma.user.create({
+      data: {
+        ...newUser,
+        password: hashedPassword,
+        roleId: 1,
+      },
+    });
+  }
+
+  async createClient(newUser: CreateClientDto) {
+    const hashedPassword = await bcrypt.hash(
+      newUser.password,
+      parseInt(this.configService.get<string>('ROUNDS_OF_HASHING'), 10),
+    );
 
     return this.prisma.user.create({
-      data: newUser,
+      data: {
+        ...newUser,
+        password: hashedPassword,
+        roleId: 3,
+      },
     });
   }
 
@@ -39,7 +56,7 @@ export class UsersService {
     if (userToUpdate.password) {
       userToUpdate.password = await bcrypt.hash(
         userToUpdate.password,
-        this.configService.get<number>('ROUNDS_OF_HASHING'),
+        parseInt(this.configService.get<string>('ROUNDS_OF_HASHING'), 10),
       );
     }
 
