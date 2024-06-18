@@ -10,14 +10,21 @@ import {
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
+import { ProductEntity } from './entities/product.entity';
+import { ApiCreatedResponse } from '@nestjs/swagger';
 
 @Controller('products')
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
   @Post('create')
-  create(@Body() createProductDto: CreateProductDto) {
-    return this.productsService.create(createProductDto);
+  @ApiCreatedResponse({
+    type: ProductEntity,
+  })
+  async create(@Body() createProductDto: CreateProductDto) {
+    return new ProductEntity(
+      await this.productsService.create(createProductDto),
+    );
   }
 
   @Get()
